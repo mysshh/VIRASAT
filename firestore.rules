@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // Master safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Entries collection
+    match /entries/{entryId} {
+      allow read: if true; // Publicly readable
+      allow create: if isSignedIn() && isValidId(entryId) && incoming().keys().hasAll(['id', 'type', 'title', 'createdAt', 'likes']);
+      allow update: if isSignedIn() && incoming().keys().hasAll(['likes']) && incoming().diff(existing()).affectedKeys().hasOnly(['likes']);
+    }
+
+    // Comments collection
+    match /comments/{commentId} {
+      allow read: if true; // Publicly readable
+      allow create: if isSignedIn() && isValidId(commentId) && incoming().keys().hasAll(['id', 'entryId', 'author', 'rating', 'commentText', 'createdAt']);
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "entry": {
+      "title": "Entry",
+      "description": "A traditional remedy or recipe.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "origin": { "type": "string" },
+        "language": { "type": "string" },
+        "creator": { "type": "string" },
+        "description": { "type": "string" },
+        "benefits": { "type": "string" },
+        "ingredients": { "type": "array", "items": { "type": "string" } },
+        "instructions": { "type": "array", "items": { "type": "string" } },
+        "mediaType": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "audioBase64": { "type": "string" },
+        "transcribedText": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "likes": { "type": "number" }
+      },
+      "required": ["id", "type", "title", "createdAt", "likes"]
+    },
+    "comment": {
+      "title": "Comment",
+      "description": "A comment on a remedy or recipe.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "entryId": { "type": "string" },
+        "author": { "type": "string" },
+        "rating": { "type": "number" },
+        "commentText": { "type": "string" },
+        "tips": { "type": "string" },
+        "language": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "entryId", "author", "rating", "commentText", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/entries/{entryId}": {
+      "schema": "entry",
+      "description": "Collection of remedy and recipe entries."
+    },
+    "/comments/{commentId}": {
+      "schema": "comment",
+      "description": "Collection of comments on entries."
+    }
+  }
+}

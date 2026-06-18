@@ -1,0 +1,6 @@
+{
+  "name": "Virasat - Traditional Remedies & Recipes",
+  "description": "An anti-bias community platform for sharing and preserving authentic generational home remedies (nuskhe) and traditional recipes from all cultures with AI-assisted multi-language translation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
